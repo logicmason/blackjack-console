@@ -15,5 +15,9 @@ import Suit._
 class Rank(cardName: String, cardPoints: Int) {
   val name: String = cardName
   val points: Int = cardPoints
+  val minPoints = {
+    if (name == "Ace") 1
+    else points
+  }
   override def toString: String = name
 }
