@@ -14,4 +14,6 @@ class Deck {
 	shuffle.foreach { a => pile += a }
 
 	def shuffle = util.Random.shuffle(cards)
+
+	def draw: Card = pile.remove(0)
 }
