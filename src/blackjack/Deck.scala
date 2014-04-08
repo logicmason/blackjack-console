@@ -1,5 +1,7 @@
 package blackjack
 
+import scala.collection.mutable.ListBuffer
+
 class Deck {
 	val names = List("Ace","Two", "Three", "Four", "Five", "Six", "Seven",
 						 "Eight", "Nine", "Ten", "Jack", "Queen", "King")
@@ -7,4 +9,9 @@ class Deck {
 
 	val ranks = (names, points).zipped.map { new Rank(_, _) }
 	val cards = for (a <- ranks; b <- Suit.values) yield new Card(a, b)
+
+	var pile: ListBuffer[Card] = ListBuffer()
+	shuffle.foreach { a => pile += a }
+
+	def shuffle = util.Random.shuffle(cards)
 }
