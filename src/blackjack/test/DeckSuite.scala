@@ -1,4 +1,5 @@
-package blackjack
+package blackjack.test
+import blackjack._
 
 import org.scalatest.FunSuite
 
