@@ -7,15 +7,15 @@ class DeckSuite extends FunSuite {
     val deck = new Deck
   }
 
-  test("Invoking head on an empty Set should produce NoSuchElementException") {
-    intercept[NoSuchElementException] {
-      Set.empty.head
-    }
-  }
-
   test("size of new deck") {
     new TestSets {
       assert(deck.cards.size === 0)
+    }
+  }
+
+  test("first card is an ace") {
+    new TestSets {
+      assert(deck.cards.head.rank.name === "Ace")
     }
   }
 }
