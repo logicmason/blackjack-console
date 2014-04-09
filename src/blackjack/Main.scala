@@ -6,22 +6,34 @@ object Main extends App {
 	val player = new Player(readLine(), 100)
 	println(player)
 	var isPlaying = true
+	var willContinue: Char = ' '
 	//play a game
 	while (isPlaying){
 		println("Would you like to play a new game? (y or n)")
-		var willContinue = readChar()
-		willContinue match {
-			case 'y' => try{
-				println("...pretend game")
-			} catch {
-        case x: RuntimeException => println(x.getMessage())
+		try {
+		  willContinue = readChar()
+		} catch {
+			  case x: IndexOutOfBoundsException =>
+			    println("Be bold!  Make a decision.\n")
+			    willContinue = ' '
+			  case x: RuntimeException => println(x.getMessage())
         System.exit(1)
-      }
+		}
+		willContinue match {
+			case 'y' => {
+				println("...pretend game\n")
+			}
 			case 'n' => {
 			  println("See you next time!")
 			  isPlaying = false
 			}
-			case _ => println("Press \"y\" to play again or press \"n\" to quit.")
+			case ' ' => {}
+			case _ => try{
+				println("Press \"y\" to play again or press \"n\" to quit.\n")
+			} catch {
+        case x: RuntimeException => println(x.getMessage())
+        System.exit(1)
+      }
 		}
 	}
 }
