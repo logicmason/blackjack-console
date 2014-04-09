@@ -15,5 +15,13 @@ class Deck {
 
 	def shuffle = util.Random.shuffle(cards)
 
-	def draw: Card = pile.remove(0)
+	def draw():Card = {
+	  if (pile.length > 15) pile.remove(0)
+	  else {
+	    // shuffle a new deck
+	    pile.clear
+	    shuffle.foreach { a => pile += a }
+	    pile.remove(0)
+	  }
+	}
 }
