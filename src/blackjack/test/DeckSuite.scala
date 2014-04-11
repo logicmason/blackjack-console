@@ -35,4 +35,13 @@ class DeckSuite extends FunSuite {
     	assert( (card1 :: card2 :: pile).toSet == deck.cards.toSet )
     }
   }
+
+  test("when a deck's draw pile is running out, a new one is shuffled") {
+  	new TestSets {
+  	  for (i <- 1 to 1000) {
+  	    deck.draw
+  	  }
+  	  assert(deck.pile.size > 1)
+  	}
+	}
 }
