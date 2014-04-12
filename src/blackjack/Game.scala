@@ -10,16 +10,15 @@ class Game(val player: Player) {
 	}
 
 	def tallyLow(hand: List[Card]): Int = {
+	  if (hand == null) return 0
 	  hand.foldLeft(0)((a,b) => a + (b.rank.minPoints) )
 	}
 
 	def tallyHigh(hand: List[Card]): Int = {
+	  if (hand == null) return 0
 	  hand.foldLeft(0)((a,b) => a + (b.rank.points))
 	}
 
-	def isBust(hand: List[Card]):Boolean = {
-	  if (hand == null) false
-	  else tallyLow(hand) > limit
-	}
+	def isBust(hand: List[Card]):Boolean = tallyLow(hand) > limit
 }
 

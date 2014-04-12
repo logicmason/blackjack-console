@@ -49,5 +49,4 @@ class GameSuite extends FunSuite {
       assert(game.isBust(hand3) == true)
     }
   }
-
 }
