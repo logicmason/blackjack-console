@@ -34,4 +34,20 @@ class GameSuite extends FunSuite {
     }
   }
 
+  test("Correctly counts min values of hands") {
+    new TestSets {
+      assert(game.tallyLow(hand1) == 21)
+      assert(game.tallyLow(hand2) == 10)
+      assert(game.tallyLow(hand3) == 22)
+    }
+  }
+
+  test("Correctly checks for busts") {
+    new TestSets {
+      assert(game.isBust(hand1) == false)
+      assert(game.isBust(hand2) == false)
+      assert(game.isBust(hand3) == true)
+    }
+  }
+
 }
