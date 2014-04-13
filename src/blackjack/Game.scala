@@ -4,6 +4,7 @@ class Game(val player: Player) {
 	val deck = new Deck
 	var dealerHand: List[Card] = null
 	val limit = 21
+	val minimumBet = 1
 
 	def gameOver() = {
 	  isBust(dealerHand) || isBust(player.hand)
