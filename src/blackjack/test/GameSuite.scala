@@ -49,4 +49,13 @@ class GameSuite extends FunSuite {
       assert(game.isBust(hand3) == true)
     }
   }
+
+  test("Deck pile gets smaller when dealing") {
+    new TestSets {
+      game.dealerDraw()
+      game.dealTo(Johnny)
+      game.dealTo(Johnny)
+      assert(game.deck.size == 49)
+    }
+  }
 }
