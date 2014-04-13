@@ -13,6 +13,9 @@ class Deck {
 	var pile: ListBuffer[Card] = ListBuffer()
 	shuffle.foreach { a => pile += a }
 
+	def size:Int = pile.size
+	def length:Int = pile.length
+
 	def shuffle = util.Random.shuffle(cards)
 
 	def draw():Card = {

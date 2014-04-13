@@ -20,5 +20,8 @@ class Game(val player: Player) {
 	}
 
 	def isBust(hand: List[Card]):Boolean = tallyLow(hand) > limit
+
+	def dealTo(player: Player) = player.hand = deck.draw :: player.hand
+	def dealerDraw() = dealerHand = deck.draw :: dealerHand
 }
 
