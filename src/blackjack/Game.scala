@@ -31,5 +31,16 @@ class Game(val player: Player) {
 	  if (dealerHand == null) dealerHand = List(deck.draw)
 		else dealerHand = deck.draw :: dealerHand
 	}
+
+	// game sequence
+	dealerDraw()
+	println(s"Dealer draws a card.  It's the ${dealerHand.head}")
+	dealerDraw()  // hole card
+	println(s"Dealer draws a second card and places it face-down")
+
+	dealTo(player)
+	println(s"You are dealt the ${player.hand.head}")
+
+	//TODO loop of hitting until player stops
 }
 
