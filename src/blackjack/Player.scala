@@ -25,6 +25,6 @@ class Player(name: String, var chips: Int) {
 	override def toString: String = s"""
     Name: $name
     Chips: $chips
-    Hand: $hand
+    Wager: $wager
 	""".stripMargin
 }

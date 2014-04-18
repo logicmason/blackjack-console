@@ -67,16 +67,44 @@ class Game(val player: Player) {
 	  println("GAME OVER")
 	}
 
+	def getBet(player: Player) {
+	  println("How much would you like to bet?")
+	  val i = try {
+       Console.readInt
+     } catch {
+       case e: NumberFormatException =>
+         0
+     }
+     if (i < minimumBet) {
+       println(s"Sorry, the minimum bet at this table is ${minimumBet}")
+       if (minimumBet > player.chips) {
+         println("... and that's more than you have.  K thx bye!")
+         gameOver // TODO find cleaner way to do break execution
+         return
+       }
+       else return getBet(player)
+     }
+
+     if (player.bet(i)) {
+       println(player)
+       return
+     } else {
+       println("You can't afford that much")
+     }
+     return getBet(player)
+	}
+
 	// game sequence
+	getBet(player)
+
 	dealerDraw()
 	println(s"Dealer draws a card.  It's the ${dealerHand.head}")
-	dealerDraw()  // hole card
+	dealerDraw()
 	println(s"Dealer draws a second card and places it face-down\n")
 
 	dealTo(player)
 	println(s"You are dealt the ${player.hand.head}")
 
-	//TODO loop of hitting until player stops
 	var action: Char = ' '
 	var doneHitting = false
 	while (!doneHitting && !isGameOver) {
