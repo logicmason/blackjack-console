@@ -42,5 +42,35 @@ class Game(val player: Player) {
 	println(s"You are dealt the ${player.hand.head}")
 
 	//TODO loop of hitting until player stops
+	var action: Char = ' '
+	var doneHitting = false
+	while (!doneHitting) {
+	  println("Would you like to (h)it or (s)tand?")
+		try {
+		  action = readChar()
+		} catch {
+			  case x: IndexOutOfBoundsException =>
+			    println("Invalid input.\n")
+			    action = ' '
+			  case x: RuntimeException => println(x.getMessage())
+        System.exit(1)
+		}
+		action match {
+			case 'h' => {
+				println("Hit!\n")
+			}
+			case 's' => {
+			  println("Stand.\n")
+			  doneHitting = true
+			}
+			case ' ' => {}
+			case _ => try{
+				println("Press \"h\" to hit or press \"s\" to stand.\n")
+			} catch {
+        case x: RuntimeException => println(x.getMessage())
+        System.exit(1)
+      }
+		}
+	}
 }
 

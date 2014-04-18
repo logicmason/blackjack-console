@@ -21,7 +21,7 @@ object Main extends App {
 		}
 		willContinue match {
 			case 'y' => {
-				println("...pretend game\n")
+				new Game(player)
 			}
 			case 'n' => {
 			  println("See you next time!")
