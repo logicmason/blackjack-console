@@ -6,8 +6,8 @@ class Game(val player: Player) {
 	val limit = 21
 	val minimumBet = 1
 
-	def gameOver() = {
-	  isBust(dealerHand) || isBust(player.hand)
+	def isGameOver() = {
+	  isBust(dealerHand) || isBust(player.hand) || player.hand == null
 	}
 
 	def tallyLow(hand: List[Card]): Int = {
@@ -32,6 +32,28 @@ class Game(val player: Player) {
 		else dealerHand = deck.draw :: dealerHand
 	}
 
+	def display(hand: List[Card]) {
+	  print("Cards: ")
+	  println(hand.mkString(", "))
+	}
+
+	def hit(p: Player) {
+	  dealTo(p)
+	  println(s"\nYou are dealt the ${player.hand.head}")
+	  display(p.hand)
+	  if (isBust(p.hand)) lose(p)
+	}
+
+	def lose(p: Player) {
+	  println("BUST!!!  You lose.")
+	  p.loses
+	  gameOver
+	}
+
+	def gameOver {
+	  player.hand = null
+	}
+
 	// game sequence
 	dealerDraw()
 	println(s"Dealer draws a card.  It's the ${dealerHand.head}")
@@ -44,8 +66,8 @@ class Game(val player: Player) {
 	//TODO loop of hitting until player stops
 	var action: Char = ' '
 	var doneHitting = false
-	while (!doneHitting) {
-	  println("Would you like to (h)it or (s)tand?")
+	while (!doneHitting && !isGameOver) {
+	  println("\nWould you like to (h)it or (s)tand?")
 		try {
 		  action = readChar()
 		} catch {
@@ -57,7 +79,7 @@ class Game(val player: Player) {
 		}
 		action match {
 			case 'h' => {
-				println("Hit!\n")
+				hit(player)
 			}
 			case 's' => {
 			  println("Stand.\n")
@@ -72,5 +94,6 @@ class Game(val player: Player) {
       }
 		}
 	}
+	gameOver
 }
 
