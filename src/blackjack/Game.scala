@@ -44,21 +44,34 @@ class Game(val player: Player) {
 	  if (isBust(p.hand)) lose(p)
 	}
 
+	def dealerHit() {
+	  dealerDraw()
+	  println(s"Dealer draws a card.  It's the ${dealerHand.head}")
+	}
+
 	def lose(p: Player) {
 	  println("BUST!!!  You lose.")
 	  p.loses
 	  gameOver
 	}
 
+	def win(p: Player) {
+	  println("You win!")
+	  p.wins
+	  gameOver
+	}
+
 	def gameOver {
 	  player.hand = null
+	  dealerHand = null
+	  println("GAME OVER")
 	}
 
 	// game sequence
 	dealerDraw()
 	println(s"Dealer draws a card.  It's the ${dealerHand.head}")
 	dealerDraw()  // hole card
-	println(s"Dealer draws a second card and places it face-down")
+	println(s"Dealer draws a second card and places it face-down\n")
 
 	dealTo(player)
 	println(s"You are dealt the ${player.hand.head}")
@@ -94,6 +107,19 @@ class Game(val player: Player) {
       }
 		}
 	}
-	gameOver
+
+	while (tallyLow(dealerHand) < 17) dealerHit
+
+	display(dealerHand)
+
+	if (isBust(dealerHand)) {
+	  println("Dealer Bust! You win!\n")
+	  win(player)
+	} else {
+	  println("Dealer Stands.")
+
+	  //TODO determine winner
+	  gameOver
+	}
 }
 

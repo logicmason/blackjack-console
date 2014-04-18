@@ -5,7 +5,7 @@ class Player(name: String, var chips: Int) {
 	var wager = 0
 
 	def bet(amount:Int): Boolean = {
-	  if (chips < 0) return false
+	  if (chips < amount) return false
 	  else {
 	    chips -= amount
 	    wager += amount

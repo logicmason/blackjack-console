@@ -4,12 +4,12 @@ object Main extends App {
 	println("Let's play Blackjack!\n")
 	println("What's your name?\n")
 	val player = new Player(readLine(), 100)
-	println(player)
 	var isPlaying = true
 	var willContinue: Char = ' '
 	//play a game
 	while (isPlaying){
-		println("\nWould you like to play a new game? (y or n)")
+	  println(player)
+		println("Would you like to play a new game? (y or n)")
 		try {
 		  willContinue = readChar()
 		} catch {
