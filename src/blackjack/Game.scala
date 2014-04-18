@@ -20,6 +20,18 @@ class Game(val player: Player) {
 	  hand.foldLeft(0)((a,b) => a + (b.rank.points))
 	}
 
+	def score(hand: List[Card]): Int = {
+	  val hi = tallyHigh(hand)
+	  if (isBust(hand)) 0
+	  else if (hi <= limit) hi
+	  else deductTenUntilValid(hi)
+	}
+
+	def deductTenUntilValid(n: Int): Int = {
+	  if (n <= limit) n
+	  else deductTenUntilValid(n-10)
+	}
+
 	def isBust(hand: List[Card]):Boolean = tallyLow(hand) > limit
 
 	def dealTo(player: Player) = {  // player, not hand because List[Card] is immutable
