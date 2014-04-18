@@ -1,6 +1,6 @@
 package blackjack
 
-class Player(name: String, var chips: Int) {
+class Player(val name: String, var chips: Int) {
 	var hand: List[Card] = null
 	var wager = 0
 
@@ -19,6 +19,11 @@ class Player(name: String, var chips: Int) {
 	}
 
 	def loses {
+	  wager = 0
+	}
+
+	def ties {
+	  chips += wager
 	  wager = 0
 	}
 

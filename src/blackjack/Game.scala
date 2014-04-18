@@ -53,7 +53,10 @@ class Game(val player: Player) {
 	  dealTo(p)
 	  println(s"\nYou are dealt the ${player.hand.head}")
 	  display(p.hand)
-	  if (isBust(p.hand)) lose(p)
+	  if (isBust(p.hand)) {
+	    println("BUST!!!")
+	    gameOver
+	  }
 	}
 
 	def dealerHit() {
@@ -62,21 +65,36 @@ class Game(val player: Player) {
 	}
 
 	def lose(p: Player) {
-	  println("BUST!!!  You lose.")
+	  println("You lose.")
 	  p.loses
-	  gameOver
 	}
 
 	def win(p: Player) {
 	  println("You win!")
 	  p.wins
-	  gameOver
+	}
+
+	def tie(p: Player) {
+	  println("It's a draw.")
+	  p.ties
 	}
 
 	def gameOver {
+	  println
+	  determineWinner
 	  player.hand = null
 	  dealerHand = null
 	  println("GAME OVER")
+	}
+
+	def determineWinner {
+	  val playerScore = score(player.hand)
+	  val dealerScore = score(dealerHand)
+	  println(s"\nDealer - Score: ${dealerScore}  (${dealerHand.mkString(", ")})")
+	  println(s"${player.name} - Score: ${playerScore}  (${player.hand.mkString(", ")})")
+	  if (playerScore > dealerScore) win(player)
+	  else if (playerScore < dealerScore) lose(player)
+	  else tie(player)
 	}
 
 	def getBet(player: Player) {
@@ -91,7 +109,7 @@ class Game(val player: Player) {
        println(s"Sorry, the minimum bet at this table is ${minimumBet}")
        if (minimumBet > player.chips) {
          println("... and that's more than you have.  K thx bye!")
-         gameOver // TODO find cleaner way to do break execution
+         System.exit(1)
          return
        }
        else return getBet(player)
@@ -106,60 +124,57 @@ class Game(val player: Player) {
      return getBet(player)
 	}
 
-	// game sequence
-	getBet(player)
+	def gameLoop() {
+	  // game sequence
+		getBet(player)
 
-	dealerDraw()
-	println(s"Dealer draws a card.  It's the ${dealerHand.head}")
-	dealerDraw()
-	println(s"Dealer draws a second card and places it face-down\n")
+		dealerDraw()
+		println(s"Dealer draws a card.  It's the ${dealerHand.head}")
+		dealerDraw()
+		println(s"Dealer draws a second card and places it face-down\n")
 
-	dealTo(player)
-	println(s"You are dealt the ${player.hand.head}")
+		dealTo(player)
+		println(s"You are dealt the ${player.hand.head}")
 
-	var action: Char = ' '
-	var doneHitting = false
-	while (!doneHitting && !isGameOver) {
-	  println("\nWould you like to (h)it or (s)tand?")
-		try {
-		  action = readChar()
-		} catch {
-			  case x: IndexOutOfBoundsException =>
-			    println("Invalid input.\n")
-			    action = ' '
-			  case x: RuntimeException => println(x.getMessage())
-        System.exit(1)
-		}
-		action match {
-			case 'h' => {
-				hit(player)
-			}
-			case 's' => {
-			  println("Stand.\n")
-			  doneHitting = true
-			}
-			case ' ' => {}
-			case _ => try{
-				println("Press \"h\" to hit or press \"s\" to stand.\n")
+		var action: Char = ' '
+		var doneHitting = false
+		while (!doneHitting && !isGameOver) {
+		  println("\nWould you like to (h)it or (s)tand?")
+			try {
+			  action = readChar()
 			} catch {
-        case x: RuntimeException => println(x.getMessage())
-        System.exit(1)
-      }
+				  case x: IndexOutOfBoundsException =>
+				    println("Invalid input.\n")
+				    action = ' '
+				  case x: RuntimeException => println(x.getMessage())
+	        System.exit(1)
+			}
+			action match {
+				case 'h' => {
+					hit(player)
+				}
+				case 's' => {
+				  println("Stand.\n")
+				  doneHitting = true
+				}
+				case ' ' => {}
+				case _ => try{
+					println("Press \"h\" to hit or press \"s\" to stand.\n")
+				} catch {
+	        case x: RuntimeException => println(x.getMessage())
+	        System.exit(1)
+	      }
+			}
 		}
-	}
+		if (!isGameOver) {
+		  while (tallyLow(dealerHand) < 17) dealerHit
 
-	while (tallyLow(dealerHand) < 17) dealerHit
+		  display(dealerHand)
+			if (isBust(dealerHand)) println("Dealer Bust!\n")
+			else println("Dealer Stands.")
 
-	display(dealerHand)
-
-	if (isBust(dealerHand)) {
-	  println("Dealer Bust! You win!\n")
-	  win(player)
-	} else {
-	  println("Dealer Stands.")
-
-	  //TODO determine winner
-	  gameOver
+			gameOver
+		}
 	}
 }
 

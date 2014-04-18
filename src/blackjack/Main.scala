@@ -21,7 +21,7 @@ object Main extends App {
 		}
 		willContinue match {
 			case 'y' => {
-				new Game(player)
+				new Game(player).gameLoop()
 			}
 			case 'n' => {
 			  println("See you next time!")

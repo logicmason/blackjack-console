@@ -58,4 +58,22 @@ class GameSuite extends FunSuite {
       assert(game.deck.size == 49)
     }
   }
+
+  test("deductTenUntilValid works") {
+    new TestSets {
+      assert(game.deductTenUntilValid(17) == 17)
+      assert(game.deductTenUntilValid(37) == 17)
+      assert(game.deductTenUntilValid(21) == 21)
+      assert(game.deductTenUntilValid(40) == 20)
+      assert(game.deductTenUntilValid(51) == 21)
+    }
+  }
+
+  test("Correctly scores hands") {
+    new TestSets {
+      assert(game.score(hand1) == 21)
+      assert(game.score(hand2) == 20)
+      assert(game.score(hand3) == 0) // since it's bust
+    }
+  }
 }
